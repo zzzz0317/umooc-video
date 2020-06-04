@@ -1,2 +1,8 @@
 .idea
 __pycache__
+chromedriver.exe
+run.py
+build
+dist
+*.spec
+saved-data.json
