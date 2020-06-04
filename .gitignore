@@ -6,3 +6,4 @@ build
 dist
 *.spec
 saved-data.json
+auth.php

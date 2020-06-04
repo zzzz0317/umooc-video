@@ -9,9 +9,6 @@ def errExit(s):
     sys.exit(1)
 
 
-nav_name = ""
-
-
 def clickNav(browser, nav_name):
     nav = browser.find_element_by_class_name("nav").find_element_by_partial_link_text(nav_name)
     browser.execute_script("scrollTo(0,0);");
@@ -73,13 +70,21 @@ def checkFrame(browser):
 
 
 def checkVideoFrame(browser):
-    videoMenu = browser.find_element_by_id("content_min").find_element_by_id("descrip").find_elements_by_tag_name(
+    elemMenu = browser.find_element_by_id("content_min").find_element_by_id("descrip").find_elements_by_tag_name(
         "li")
+    elemCount = len(elemMenu)
+    print("共" + str(elemCount) + "个标签")
+    videoMenu = []
+    for i in elemMenu:
+        videoMenuElemType = i.find_element_by_tag_name("a").get_attribute("class")
+        if videoMenuElemType == "type_1":
+            videoMenu.append(i)
     videoCount = len(videoMenu)
     print("共" + str(videoCount) + "个视频")
     for i in range(videoCount):
-        print("播放第" + str(i + 1) + "个视频")
-        videoMenu[i].click()
+        print("打开第" + str(i + 1) + "个视频")
+        videoMenuElem = videoMenu[i]
+        videoMenuElem.click()
         sleep(video_load_wait_time)
         videoPlayer = browser.find_element_by_id("resAct_min").find_element_by_id("video") \
             .find_element_by_tag_name("video")
