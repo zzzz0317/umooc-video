@@ -49,8 +49,13 @@ def checkFrame(browser):
             browser.switch_to.frame(contentFrame)
             checkVideoFrame(browser)
         elif addr == "resFolderViewList.do":
-            print("文件或文件夹节点，跳过")
-            sleep(resFolderViewList_wait_time)
+            if (openAndWaitLink_wait_time == 0):
+                print("文件或文件夹节点，跳过")
+                sleep(unknown_wait_time)
+            else:
+                print("文件或文件夹节点，开始遍历")
+                browser.switch_to.frame(contentFrame)
+                checkFolderFrame(browser)
         elif addr == "colUrlStuView.do":
             print("疑似空节点，跳过")
             sleep(colUrlStuView_wait_time)
@@ -63,9 +68,10 @@ def checkFrame(browser):
         else:
             print("未知节点(" + addr + ")，跳过")
             sleep(unknown_wait_time)
-    except:
+    except BaseException as e:
         browser.switch_to.default_content()
         print("该节点无内容")
+        print(e)
     browser.switch_to.default_content()
 
 
@@ -103,6 +109,34 @@ def checkVideoFrame(browser):
                 break
         print("\n第" + str(i + 1) + "个视频播放完成")
     print("当前节点视频全部播放完成")
+
+
+def checkFolderFrame(browser):
+    folderTable = browser.find_element_by_id("postform").find_element_by_tag_name("table")
+    elems_tr = folderTable.find_elements_by_tag_name("tr")
+    names = []
+    links = []
+    for i in range(1, len(elems_tr)):
+        e = elems_tr[i]
+        elem_a = e.find_element_by_tag_name("a")
+        names.append(elem_a.get_attribute("innerText"))
+        links.append(elem_a.get_attribute("href"))
+    print("共 {} 个资源".format(len(links)))
+    for i in range(len(links)):
+        print("开始处理 {}".format(names[i]))
+        openAndWaitLink(browser, links[i])
+
+
+def openAndWaitLink(browser, link):
+    sc = 'window.open("' + link + '")'
+    browser.execute_script(sc)
+    browser.switch_to_window(browser.window_handles[1])
+    print("在新标签页中打开 {}".format(link))
+    print("等待 {} 秒后继续".format(openAndWaitLink_wait_time))
+    sleep(openAndWaitLink_wait_time)
+    browser.close()
+    print("新标签页关闭")
+    browser.switch_to_window(browser.window_handles[0])
 
 
 def removeUselessElem(browser):

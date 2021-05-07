@@ -4,6 +4,7 @@ video_check_time = 3
 mainloop_wait_time = 5
 
 resFolderViewList_wait_time = 0
+openAndWaitLink_wait_time = 10
 colUrlStuView_wait_time = 0
 thread_wait_time = 0
 test_wait_time = 0
