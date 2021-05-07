@@ -1,3 +1,5 @@
+from ver_code import vercode
+print("umooc-video {}".format(vercode))
 licstr = """
 使用许可协议
 本程序采用 GPLv2 许可协议开源，严格禁止商业用途和转售牟利

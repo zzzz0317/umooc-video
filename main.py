@@ -55,15 +55,17 @@ except:
 print("登录成功")
 
 print("获得课程列表...")
-browser.get(umooc_link + "personal.do?menuId=0")
+# browser.get(umooc_link + "personal.do?menuId=0")
+# sleep(click_wait_time)
+# browser.find_element_by_class_name("courselist") \
+#     .find_element_by_class_name("courselistbody") \
+#     .find_element_by_class_name("courseborder") \
+#     .find_element_by_class_name("title") \
+#     .find_element_by_tag_name("span") \
+#     .find_element_by_tag_name("a").click()
+# browser.get(browser.find_element_by_id("main").get_attribute("src"))
+browser.get(umooc_link + "lesson/blen.student.lesson.list.jsp")
 sleep(click_wait_time)
-browser.find_element_by_class_name("courselist") \
-    .find_element_by_class_name("courselistbody") \
-    .find_element_by_class_name("courseborder") \
-    .find_element_by_class_name("title") \
-    .find_element_by_tag_name("span") \
-    .find_element_by_tag_name("a").click()
-browser.get(browser.find_element_by_id("main").get_attribute("src"))
 
 courseList = []
 for i in browser.find_element_by_tag_name("table").find_elements_by_tag_name("a"):

@@ -7,3 +7,4 @@ dist
 *.spec
 saved-data.json
 auth.php
+zz.txt
